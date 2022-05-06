@@ -19,10 +19,11 @@ function userExists($pdo,$username,$email){
   $statement->bindValue(':email',$email);
   $statement->execute();
   $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-  if(is_array($result)){
-    return false;
+  //var_dump($result);
+  if($result){
+    return $result;
   }else{
-    return true;
+    return false;
   }
 }
 function createUser($pdo,$username,$email,$password){

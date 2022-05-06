@@ -9,7 +9,7 @@ if(isset($_POST['signup-submit'])){
   $repeatPwd = $_POST['signup-repeat-password'];
   include 'functions.php';
   if(missingSignupInput($username,$email,$password,$repeatPwd)){
-    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=missingInput');
+    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=9');
     exit();
   }
   if(invalidUsername($username)){

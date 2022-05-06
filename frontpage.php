@@ -45,6 +45,30 @@
         <input type="submit" name="signup-submit">
       </form>
     </div>
+    <?php
+    if(isset($_GET['error'])){
+      switch($_GET['error']){
+        case 'missingInput':
+          echo'<h2> missing inputs</h2>';
+          break;
+        case 'invalidUsername':
+          echo'<h2> username is invalid</h2>';
+          break;
+        case 'invalidEmail':
+          echo'<h2> email is invalid</h2>';
+          break;
+        case 'passwordsNoMatch':
+          echo "<h2>the passwords don't match</h2>";
+          break;
+        case 'userExists':
+          echo'<h2>username or email already used</h2>';
+          break;
+        default:
+          echo'<h2> your account has been created</h2>';
+          break;
+      }
+    }
+    ?>
   </div>
 </div>
 </body>
