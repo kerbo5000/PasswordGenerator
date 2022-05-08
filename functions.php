@@ -2,6 +2,9 @@
 function missingSignupInput($username,$email,$password,$repeatPwd){
 return (empty($username) ||  empty($email) ||  empty($password) || empty($repeatPwd));
 }
+function missingLoginInput($username,$password){
+return (empty($username) || empty($password));
+}
 function invalidUsername($username){
   return (!preg_match('/^[a-zA-Z0-9]*$/',$username));
 }
@@ -19,7 +22,6 @@ function userExists($pdo,$username,$email){
   $statement->bindValue(':email',$email);
   $statement->execute();
   $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-  //var_dump($result);
   if($result){
     return $result;
   }else{

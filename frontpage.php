@@ -10,68 +10,85 @@
   <title>Password Generator</title>
 </head>
 <body>
-<div class="app">
-  <h1>Passeord Storage</h1>
-  <div class="container">
-    <div class="navigation">
-      <nav>
-        <ul>
-          <li><button type="button" id="login-btn" value="login">login</button></li>
-          <li><button type="button" id="signup-btn" value="signup">sign up</button></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="tab" id="login">
-      <h2>login</h2>
-      <form class="" action="login.php" method="POST">
-        <label>Username</label><br>
-        <input type="text"  name="login-username"><br>
-        <label>Password</label><br>
-        <input type="password" name="login-password"><br>
-        <input type="submit" name="login-submit">
-      </form>
-    </div>
-    <div class="tab" id="signup" style="display:none;" >
-      <h2>sign up</h2>
-      <form class="" action="signup.php" method="POST">
-        <label>Username</label><br>
-        <input type="text" name="signup-username"><br>
-        <label>Email</label><br>
-        <input type="text" name="signup-email"><br>
-        <label>Password</label><br>
-        <input type="password" name="signup-password"><br>
-        <label>Repeat Password</label><br>
-        <input type="password" name="signup-repeat-password"><br>
-        <input type="submit" name="signup-submit">
-      </form>
-    </div>
-    <?php
-    if(isset($_GET['error'])){
-      switch($_GET['error']){
-        case 'missingInput':
+  <div class="app">
+    <h1>Password Storage</h1>
+    <div class="container">
+      <div class="navigation">
+        <nav>
+          <ul>
+            <li><button type="button" id="login-btn" value="login">login</button></li>
+            <li><button type="button" id="signup-btn" value="signup">sign up</button></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="tab" id="login">
+        <h2>login</h2>
+        <form class="" action="login.php" method="POST">
+          <label>Username</label><br>
+          <input type="text"  name="login-username"><br>
+          <label>Password</label><br>
+          <input type="password" name="login-password"><br>
+          <input type="submit" name="login-submit">
+        </form>
+      </div>
+      <div class="tab" id="signup" style="display:none;" >
+        <h2>sign up</h2>
+        <form class="" action="signup.php" method="POST">
+          <label>Username</label><br>
+          <input type="text" name="signup-username"><br>
+          <label>Email</label><br>
+          <input type="text" name="signup-email"><br>
+          <label>Password</label><br>
+          <input type="password" name="signup-password"><br>
+          <label>Repeat Password</label><br>
+          <input type="password" name="signup-repeat-password"><br>
+          <input type="submit" name="signup-submit">
+        </form>
+      </div>
+      <script src="index.js"></script>
+      <?php
+      if(isset($_GET['prev'])){
+        switch($_GET['prev']){
+          case 'login':
+          echo "<script>const event = new Event('click');
+          loginBtn.dispatchEvent(event);</script>";
+          break;
+          case 'signup':
+          echo "<script>const event = new Event('click');
+          signupBtn.dispatchEvent(event);</script>";
+          break;
+        }
+      }
+      if(isset($_GET['error'])){
+        switch($_GET['error']){
+          case 'missingInput':
           echo'<h2> missing inputs</h2>';
           break;
-        case 'invalidUsername':
+          case 'invalidUsername':
           echo'<h2> username is invalid</h2>';
           break;
-        case 'invalidEmail':
+          case 'invalidEmail':
           echo'<h2> email is invalid</h2>';
           break;
-        case 'passwordsNoMatch':
+          case 'passwordsNoMatch':
           echo "<h2>the passwords don't match</h2>";
           break;
-        case 'userExists':
+          case 'userExists':
           echo'<h2>username or email already used</h2>';
           break;
-        default:
-          echo'<h2> your account has been created</h2>';
+          case 'wrongPassword':
+          echo'<h2>password doesn\'t match with account</h2>';
           break;
+          case 'noUser':
+          echo'<h2>account doesn\'t exist</h2>';
+          break;
+          default:
+          echo $_GET['error'];
+          break;
+        }
       }
-    }
-    ?>
+      ?>
+    </div>
   </div>
-</div>
 </body>
-<script src="index.js">
-</script>
 </html>
