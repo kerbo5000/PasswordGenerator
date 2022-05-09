@@ -1,10 +1,4 @@
 <?php
-function missingSignupInput($username,$email,$password,$repeatPwd){
-return (empty($username) ||  empty($email) ||  empty($password) || empty($repeatPwd));
-}
-function missingLoginInput($username,$password){
-return (empty($username) || empty($password));
-}
 function invalidUsername($username){
   return (!preg_match('/^[a-zA-Z0-9]*$/',$username));
 }
@@ -35,5 +29,6 @@ function createUser($pdo,$username,$email,$password){
   $statement->bindValue(':email',$email);
   $statement->bindValue(':password',$hashedPwd);
   $statement->execute();
+  return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>

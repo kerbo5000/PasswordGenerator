@@ -1,39 +1,51 @@
 <?php
 if(isset($_POST['signup-submit'])){
-  $username = $_POST['signup-username'];
-  $email = $_POST['signup-email'];
-  $password = $_POST['signup-password'];
-  $repeatPwd = $_POST['signup-repeat-password'];
-  include 'dbconnection.php';
-  include 'functions.php';
-  if(missingSignupInput($username,$email,$password,$repeatPwd)){
-    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=missingInput&prev=signup');
+  $usernameSignup = $_POST['signup-username'];
+  $emailSignup = $_POST['signup-email'];
+  $passwordSignup = $_POST['signup-password'];
+  $repeatPwdSignup = $_POST['signup-repeat-password'];
+  include_once 'dbconnection.php';
+  include_once 'functions.php';
+  if(!empty($usernameSignup)){
+    if(invalidUsername($usernameSignup)){
+      $usernameSignup = '';
+      $errors[] ='username is invalid';
+    }
+  }else{
+    $errors[] ='missing inputs';
+  }
+
+  if(!empty($emailSignup)){
+    if(invalidEmail($emailSignup)){
+      $emailSignup = '';
+      $errors[] ='email is invalid';
+    }
+  }else if(!in_array('missing inputs',$errors)){
+    $errors[] ='missing inputs';
+  }
+
+  if(!(empty($passwordSignup) || empty($repeatPwdSignup))){
+    if(pwdMatch($passwordSignup,$repeatPwdSignup)){
+      $passwordSignup ='';
+      $repeatPwdSignup = '';
+      $errors[] ='the passwords don\'t match';
+    }
+  }else if(!in_array('missing inputs',$errors)){
+    $errors[] ='missing inputs';
+  }
+  if(userExists($pdo,$usernameSignup,$emailSignup)){
+    $emailSignup = '';
+    $usernameSignup = '';
+    $errors[] ='username or email already used';
+  }
+  if(empty($errors)){
+    $user = createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup);
+    //$user = userExists($pdo,$usernameSignup,$emailSignup);
+    //$id = $user[0]['id'];
+    session_start();
+    $_SESSION['id'] = $user[0]['id'];
+    header('Location: http://localhost/PasswordGenerator/account.php');
     exit();
   }
-  if(invalidUsername($username)){
-    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=invalidUsername&prev=signup');
-    echo 'error=invalidUsername';
-    exit();
-  }
-  if(invalidEmail($email)){
-    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=invalidEmail&prev=signup');
-    exit();
-  }
-  if(pwdMatch($password,$repeatPwd)){
-    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=passwordsNoMatch&prev=signup');
-    exit();
-  }
-  if(userExists($pdo,$username,$email)){
-    header('Location: http://localhost/PasswordGenerator/frontpage.php?error=userExists&prev=signup');
-    exit();
-  }
-  createUser($pdo,$username,$email,$password);
-  $user = userExists($pdo,$username,$email);
-  $id = $user[0]['id'];
-  header('Location: http://localhost/PasswordGenerator/account.php?id='.$id);
-  exit();
-}else{
-  header('Location: http://localhost/PasswordGenerator/frontpage.php');
-  exit();
 }
 ?>

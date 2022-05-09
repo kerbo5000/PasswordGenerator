@@ -1,20 +1,26 @@
 <?php
   session_start();
-  if(!isset($_SESSION['id'])){
+  echo isset($_GET['id']).'<br>';
+  echo $_GET['id'];
+  if(!(isset($_SESSION['id']) && isset($_GET['id']))){
     header('Location: http://localhost/PasswordGenerator/frontpage.php');
     exit();
   }
-  $accountName = '';
-  $username = '';
-  $email = '';
-  $password = '';
+  include 'dbconnection.php';
+  $statement = $pdo->prepare('SELECT * FROM accounts WHERE accountID = :accountid');
+  $statement->bindValue(':accountid',$_GET['id']);
+  $statement->execute();
+  $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+  $accountName = $result[0]['accountName'];
+  $username = $result[0]['username'];
+  $email = $result[0]['email'];
+  $password = $result[0]['password'];
   $errors = [];
   if(isset($_POST['submit'])){
     $accountName = $_POST['account-name'];
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    include 'dbconnection.php';
     include 'functions.php';
     if(!empty($email)){
       if(invalidEmail($email)){
@@ -30,13 +36,13 @@
       }
     }
     if(empty($errors)){
-      $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID) VALUES (:user, :email, :password,:accountName,:userid)');
+      $statement = $pdo->prepare('UPDATE accounts SET username = :user, email = :email, password = :password,accountName =:accountName WHERE accountID = :accountid' );
       // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
       $statement->bindValue(':user',$username);
       $statement->bindValue(':accountName',$accountName);
       $statement->bindValue(':email',$email);
       $statement->bindValue(':password',$password);
-      $statement->bindValue(':userid',$_SESSION['id']);
+      $statement->bindValue(':accountid',$_GET['id']);
       $statement->execute();
       header('Location: http://localhost/PasswordGenerator/account.php');
       exit();
@@ -50,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
-  <link  rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <title>Password Generator</title>
 </head>
@@ -75,8 +81,8 @@
         </div>
       <?php endif ?>
       <div>
-        <h2>add account</h2>
-        <form  action="addAccount.php" method="POST">
+        <h2>update account</h2>
+        <form  action="update.php?id=<?php echo $_GET['id'] ?>" method="POST">
           <label>Account Name</label><br>
           <input type="text" name="account-name" value=<?php echo $accountName?>><br>
           <label>Username</label><br>

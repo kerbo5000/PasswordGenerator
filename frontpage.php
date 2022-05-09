@@ -1,3 +1,14 @@
+<?php
+  $usernameSignup = '';
+  $emailSignup ='';
+  $passwordSignup = '';
+  $repeatPwdSignup ='';
+  $usernameLogin = '';
+  $passwordLogin = '';
+  $errors = [];
+  include 'signup.php';
+  include 'login.php';
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,74 +32,43 @@
           </ul>
         </nav>
       </div>
+      <?php if(!empty($errors)):?>
+        <div>
+          <?php foreach ($errors as $error):?>
+            <p><?php echo $error ?></p>
+          <?php endforeach; ?>
+        </div>
+      <?php endif ?>
       <div class="tab" id="login">
         <h2>login</h2>
-        <form class="" action="login.php" method="POST">
+        <form action="frontpage.php" method="POST">
           <label>Username</label><br>
-          <input type="text"  name="login-username"><br>
+          <input type="text"  name="login-username" value=<?php echo $usernameLogin?>><br>
           <label>Password</label><br>
-          <input type="password" name="login-password"><br>
+          <input type="password" name="login-password" value=<?php echo $passwordLogin?>><br>
           <input type="submit" name="login-submit">
         </form>
       </div>
       <div class="tab" id="signup" style="display:none;" >
         <h2>sign up</h2>
-        <form class="" action="signup.php" method="POST">
+        <form action="frontpage.php" method="POST">
           <label>Username</label><br>
-          <input type="text" name="signup-username"><br>
+          <input type="text" name="signup-username" value=<?php echo $usernameSignup?>><br>
           <label>Email</label><br>
-          <input type="text" name="signup-email"><br>
+          <input type="text" name="signup-email" value=<?php echo $emailSignup?>><br>
           <label>Password</label><br>
-          <input type="password" name="signup-password"><br>
+          <input type="password" name="signup-password" value=<?php echo $passwordSignup?>><br>
           <label>Repeat Password</label><br>
-          <input type="password" name="signup-repeat-password"><br>
+          <input type="password" name="signup-repeat-password" value=<?php echo $repeatPwdSignup?>><br>
           <input type="submit" name="signup-submit">
         </form>
       </div>
-      <script src="index.js"></script>
-      <?php
-      if(isset($_GET['prev'])){
-        switch($_GET['prev']){
-          case 'login':
-          echo "<script>const event = new Event('click');
-          loginBtn.dispatchEvent(event);</script>";
-          break;
-          case 'signup':
-          echo "<script>const event = new Event('click');
-          signupBtn.dispatchEvent(event);</script>";
-          break;
-        }
-      }
-      if(isset($_GET['error'])){
-        switch($_GET['error']){
-          case 'missingInput':
-          echo'<h2> missing inputs</h2>';
-          break;
-          case 'invalidUsername':
-          echo'<h2> username is invalid</h2>';
-          break;
-          case 'invalidEmail':
-          echo'<h2> email is invalid</h2>';
-          break;
-          case 'passwordsNoMatch':
-          echo "<h2>the passwords don't match</h2>";
-          break;
-          case 'userExists':
-          echo'<h2>username or email already used</h2>';
-          break;
-          case 'wrongPassword':
-          echo'<h2>password doesn\'t match with account</h2>';
-          break;
-          case 'noUser':
-          echo'<h2>account doesn\'t exist</h2>';
-          break;
-          default:
-          echo $_GET['error'];
-          break;
-        }
-      }
-      ?>
+      <?php if(isset($_POST['signup-submit'])):?>
+          <script>document.getElementById('login').style.display='none';
+          document.getElementById('signup').style.display='';</script>
+      <?php endif ?>
     </div>
   </div>
+  <script src="index.js"></script>
 </body>
 </html>
