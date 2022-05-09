@@ -39,9 +39,8 @@ if(isset($_POST['signup-submit'])){
     $errors[] ='username or email already used';
   }
   if(empty($errors)){
-    $user = createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup);
-    //$user = userExists($pdo,$usernameSignup,$emailSignup);
-    //$id = $user[0]['id'];
+    createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup);
+    $user = userExists($pdo,$usernameSignup,$emailSignup);
     session_start();
     $_SESSION['id'] = $user[0]['id'];
     header('Location: http://localhost/PasswordGenerator/account.php');

@@ -29,6 +29,6 @@ function createUser($pdo,$username,$email,$password){
   $statement->bindValue(':email',$email);
   $statement->bindValue(':password',$hashedPwd);
   $statement->execute();
-  return $statement->fetchAll(PDO::FETCH_ASSOC);
+  return;
 }
 ?>
