@@ -4,7 +4,7 @@ if(isset($_POST['signup-submit'])){
   $emailSignup = $_POST['signup-email'];
   $passwordSignup = $_POST['signup-password'];
   $repeatPwdSignup = $_POST['signup-repeat-password'];
-  include_once 'dbconnection.php';
+  include_once 'config.php';
   include_once 'functions.php';
   if(!empty($usernameSignup)){
     if(invalidUsername($usernameSignup)){
@@ -33,14 +33,14 @@ if(isset($_POST['signup-submit'])){
   }else if(!in_array('missing inputs',$errors)){
     $errors[] ='missing inputs';
   }
-  if(userExists($pdo,$usernameSignup,$emailSignup)){
+  if(userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key)){
     $emailSignup = '';
     $usernameSignup = '';
     $errors[] ='username or email already used';
   }
   if(empty($errors)){
-    createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup);
-    $user = userExists($pdo,$usernameSignup,$emailSignup);
+    createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup,$private_key,$index_key);
+    $user = userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key);
     session_start();
     $_SESSION['id'] = $user[0]['id'];
     header('Location: http://localhost/PasswordGenerator/account.php');

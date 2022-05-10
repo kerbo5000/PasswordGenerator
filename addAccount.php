@@ -14,7 +14,7 @@
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    include 'dbconnection.php';
+    include 'config.php';
     include 'functions.php';
     if(!empty($email)){
       if(invalidEmail($email)){
@@ -30,12 +30,15 @@
       }
     }
     if(empty($errors)){
-      $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID) VALUES (:user, :email, :password,:accountName,:userid)');
+      $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID,usernameHash,emailHash,passwordHash) VALUES (:user, :email, :password,:accountName,:userid,:usernameHash,:emailHash,:passwordHash)');
       // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
-      $statement->bindValue(':user',$username);
+      $statement->bindValue(':user',enc($username,$private_key));
       $statement->bindValue(':accountName',$accountName);
-      $statement->bindValue(':email',$email);
-      $statement->bindValue(':password',$password);
+      $statement->bindValue(':email',enc($email,$private_key));
+      $statement->bindValue(':password',enc($password,$private_key));
+      $statement->bindValue(':usernameHash',getHash($username,$index_key));
+      $statement->bindValue(':emailHash',getHash($email,$index_key));
+      $statement->bindValue(':passwordHash',getHash($password,$index_key));
       $statement->bindValue(':userid',$_SESSION['id']);
       $statement->execute();
       header('Location: http://localhost/PasswordGenerator/account.php');

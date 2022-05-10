@@ -4,23 +4,28 @@
     header('Location: http://localhost/PasswordGenerator/frontpage.php');
     exit();
   }
-  include 'dbconnection.php';
+  //include 'dbconnection.php';
+  include 'config.php';
+  include 'functions.php';
   if(isset($_GET['search']) && isset($_GET['filter'])&& !empty($_GET['search'])){
     switch($_GET['filter']){
       case 'accountName':
         $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND accountName = :search');
+        $statement->bindValue(':search',$_GET['search']);
         break;
       case 'email':
-        $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND email = :search');
+        $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND emailHash = :search');
+        $statement->bindValue(':search',getHash($_GET['search'],$index_key));
         break;
       case 'username':
-        $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND username = :search');
+        $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND usernameHash = :search');
+        $statement->bindValue(':search',getHash($_GET['search'],$index_key));
         break;
       case 'password':
-        $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND password = :search');
+        $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND passwordHash = :search');
+        $statement->bindValue(':search',getHash($_GET['search'],$index_key));
         break;
     }
-    $statement->bindValue(':search',$_GET['search']);
   }else{
     $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid');
   }
@@ -79,11 +84,11 @@
           <?php foreach ($result as $account):?>
             <tr>
               <td><?php echo $account['accountName'] ?></td>
-              <td><?php echo $account['email'] ?></td>
-              <td><?php echo $account['username'] ?></td>
-              <td><?php echo $account['password'] ?></td>
+              <td><?php echo dec($account['email'],$private_key) ?></td>
+              <td><?php echo dec($account['username'],$private_key) ?></td>
+              <td><?php echo dec($account['password'],$private_key) ?></td>
               <td>
-                <a href="http://localhost/PasswordGenerator/update.php?id=<?php echo $account['accountID'] ?>">edit</a>
+                <a href="http://localhost/PasswordGenerator/update.php?id=<?php echo base64_encode($account['accountID']) ?>">edit</a>
                 <form action="delete.php" method="post">
                   <input type="hidden" name="actID" value=<?php echo $account['accountID'] ?>>
                   <input type="submit" name="id-delete" value="delete">
