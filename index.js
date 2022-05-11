@@ -14,3 +14,10 @@ function tabSwitch(e){
   });
   // alert(php);
 }
+const pwd = document.getElementById('password');
+const manual = document.getElementById('manual');
+const generate = document.getElementById('generate');
+manual.addEventListener("click",(){
+  pwd.disabled = false;
+}));
+signupBtn.addEventListener("click",tabSwitch);

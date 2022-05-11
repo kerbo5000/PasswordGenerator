@@ -33,6 +33,7 @@
       $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID,usernameHash,emailHash,passwordHash) VALUES (:user, :email, :password,:accountName,:userid,:usernameHash,:emailHash,:passwordHash)');
       // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
       $statement->bindValue(':user',enc($username,$private_key));
+
       $statement->bindValue(':accountName',$accountName);
       $statement->bindValue(':email',enc($email,$private_key));
       $statement->bindValue(':password',enc($password,$private_key));
@@ -87,11 +88,29 @@
           <label>Email</label><br>
           <input type="text" name="email" value=<?php echo $email?>><br>
           <label>Password</label><br>
-          <input type="text" name="password" value=<?php echo $password?>><br>
+          <div>
+            <button type="button" id='manual'>manual</button>
+            <button type="button" id='generate'>generate</button>
+          </div>
+          <input type="text" id="password" disabled name="password" value=<?php echo $password?>><br>
           <input type="submit" name="submit">
+        </form>
+        <form id="pwd-generator" style="display:none;" >
+          <label>passwod length</label>
+          <input type="number" id="length"><br>
+          <label>numbers</label>
+          <input type="checkbox" value="0" ><br>
+          <label>lower case</label>
+          <input type="checkbox" value="1" ><br>
+          <label>upper case</label>
+          <input type="checkbox" value="2" ><br>
+          <label>special characters(!@#$%^*?|~&)</label>
+          <input type="checkbox" value="3" ><br>
+          <input type="submit" value="generate">
         </form>
       </div>
     </div>
   </div>
+  <script src="generate.js"></script>
 </body>
 </html>
