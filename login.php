@@ -24,5 +24,6 @@ if(isset($_POST['login-submit'])){
       $errors[] ='account doesn\'t exist';
     }
   }
+  $errors[] = 'login';
 }
 ?>

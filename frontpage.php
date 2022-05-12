@@ -76,15 +76,6 @@ document.getElementById('signup').style.display='';</script>
   </div>
   <div class="row">
     <div class="col align-self-center">
-      <?php if(!empty($errors)):?>
-        <div class="row">
-          <div class="alert alert-danger" role="alert">
-            <?php foreach ($errors as $error):?>
-              <p class="mb-0"><?php echo $error ?></p>
-            <?php endforeach; ?>
-          </div>
-        </div>
-      <?php endif ?>
       <div class="row">
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -96,6 +87,15 @@ document.getElementById('signup').style.display='';</script>
       <div class="row">
         <div class="tab-content mt-3" id="nav-tabContent">
           <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="nav-home-tab">
+            <?php if(!empty($errors) && end($errors)=='login'&& array_pop($errors)):?>
+              <div class="row">
+                <div class="alert alert-danger" role="alert">
+                  <?php foreach ($errors as $error):?>
+                    <p class="mb-0"><?php echo $error ?></p>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            <?php endif ?>
             <form action="frontpage.php" method="POST">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username/Email</label>
@@ -109,14 +109,23 @@ document.getElementById('signup').style.display='';</script>
             </form>
           </div>
           <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <?php if(!empty($errors) && end($errors)=='signup'&& array_pop($errors)):?>
+              <div class="row">
+                <div class="alert alert-danger" role="alert">
+                  <?php foreach ($errors as $error):?>
+                    <p class="mb-0"><?php echo $error ?></p>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            <?php endif ?>
             <form action="frontpage.php" method="POST">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp" name="signup-email" value=<?php echo $emailSignup?>>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="signup-email" value=<?php echo $emailSignup?>>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">usename</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp" name="signup-username" value=<?php echo $usernameSignup?>>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="signup-username" value=<?php echo $usernameSignup?>>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -135,5 +144,9 @@ document.getElementById('signup').style.display='';</script>
   </div>
 </div>
 <script src="index.js"></script>
+<?php if(isset($_POST['signup-submit'])):?>
+  <script>const event = new Event('click');
+            signupBtn.dispatchEvent(event);</script>
+<?php endif ?>
 </body>
 </html>

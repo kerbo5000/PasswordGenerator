@@ -5,50 +5,54 @@
     exit();
   }
   //include 'dbconnection.php';
-  include 'config.php';
-  include 'functions.php';
-  echo base64_decode($_GET['id']).'<br>';
-  $statement = $pdo->prepare('SELECT * FROM accounts WHERE accountID = :accountid');
-  $statement->bindValue(':accountid',base64_decode($_GET['id']));
-  $statement->execute();
-  $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-  $accountName = $result[0]['accountName'];
-  $username = dec($result[0]['username'],$private_key);
-  $email = dec($result[0]['email'],$private_key);
-  $password = dec($result[0]['password'],$private_key);
-  $errors = [];
-  if(isset($_POST['submit'])){
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    if(!empty($email)){
-      if(invalidEmail($email)){
-        $email = '';
-        $errors[] ='email is invalid';
-      }
-    }else if(!in_array('missing inputs',$errors)){
-      $errors[] ='missing inputs';
-    }
-    if(empty($accountName) || empty($password)||empty($username)){
-      if(!in_array('missing inputs',$errors)){
+  // include 'config.php';
+  // include 'functions.php';
+
+  //echo base64_decode($_GET['id']).'<br>';
+  if(isset($_POST['id-edit'])){
+    $statement = $pdo->prepare('SELECT * FROM accounts WHERE accountID = :accountid');
+    $statement->bindValue(':accountid',base64_decode($_POST['actID']));
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $accountNameEdit = $result[0]['accountName'];
+    $usernameEdit = dec($result[0]['username'],$private_key);
+    $emailEdit = dec($result[0]['email'],$private_key);
+    $passwordEdit = dec($result[0]['password'],$private_key);
+    $errors = [];
+    if(isset($_POST['submit'])){
+      $usernameEdit = $_POST['username'];
+      $emailEdit = $_POST['email'];
+      $passwordEdit = $_POST['password'];
+      if(!empty($emailEdit)){
+        if(invalidEmail($emailEdit)){
+          $emailEdit = '';
+          $errors[] ='email is invalid';
+        }
+      }else if(!in_array('missing inputs',$errors)){
         $errors[] ='missing inputs';
       }
-    }
-    if(empty($errors)){
-      $statement = $pdo->prepare('UPDATE accounts SET username = :user, email = :email, password = :password,accountName =:accountName WHERE accountID = :accountid' );
-      // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
-      $statement->bindValue(':user',enc($username,$private_key));
-      $statement->bindValue(':accountName',$accountName);
-      $statement->bindValue(':email',enc($email,$private_key));
-      $statement->bindValue(':password',enc($password,$private_key));
-      $statement->bindValue(':accountid',base64_decode($_GET['id']));
-      $statement->execute();
-      header('Location: http://localhost/PasswordGenerator/account.php');
-      exit();
+      if(empty($accountNameEdit) || empty($passwordEdit)||empty($usernameEdit)){
+        if(!in_array('missing inputs',$errors)){
+          $errors[] ='missing inputs';
+        }
+      }
+      if(empty($errors)){
+        $statement = $pdo->prepare('UPDATE accounts SET username = :user, email = :email, password = :password,accountName =:accountName WHERE accountID = :accountid' );
+        // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
+        $statement->bindValue(':user',enc($usernameEdit,$private_key));
+        $statement->bindValue(':accountName',$accountNameEdit);
+        $statement->bindValue(':email',enc($emailEdit,$private_key));
+        $statement->bindValue(':password',enc($passwordEdit,$private_key));
+        $statement->bindValue(':accountid',base64_decode($_GET['id']));
+        $statement->execute();
+        header('Location: http://localhost/PasswordGenerator/account.php');
+        exit();
+      }
     }
   }
+
 ?>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -96,4 +100,4 @@
     </div>
   </div>
 </body>
-</html>
+</html> -->

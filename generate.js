@@ -39,10 +39,14 @@ function pwdGeneration(e){
     message.appendChild(document.createElement('br'));
   }
   if(message.childNodes.length != 0){
+    message.className = 'alert';
+    message.className +=' alert-danger';
+    message.className +=' mt-3';
+    message.setAttribute('role','alert');
     pwdForm.appendChild(message);
     setTimeout(function(){
       pwdForm.removeChild(message);
-    },4000)
+    },40000)
     return
   }
   let result = Array(length).fill(-1);

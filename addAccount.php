@@ -6,11 +6,11 @@ if(!isset($_SESSION['id'])){
   header('Location: http://localhost/PasswordGenerator/frontpage.php');
   exit();
 }
-$accountName = '';
-$username = '';
-$email = '';
-$password = '';
-$errors = [];
+// $accountName = '';
+// $username = '';
+// $email = '';
+// $password = '';
+// $errors = [];
 if(isset($_POST['submit'])){
   $accountName = $_POST['account-name'];
   $username = $_POST['username'];
@@ -20,8 +20,7 @@ if(isset($_POST['submit'])){
   }else{
     $password = "";
   }
-  include 'config.php';
-  include 'functions.php';
+
   if(!empty($email)){
     if(invalidEmail($email)){
       $email = '';
@@ -47,11 +46,14 @@ if(isset($_POST['submit'])){
     $statement->bindValue(':passwordHash',getHash($password,$index_key));
     $statement->bindValue(':userid',$_SESSION['id']);
     $statement->execute();
-    header('Location: http://localhost/PasswordGenerator/account.php');
-    exit();
+    // header('Location: http://localhost/PasswordGenerator/account.php');
+    // exit();
+    $success[] = 'Account has been added';
+    $success[] = 'success';
   }else{
-    header('Location: http://localhost/PasswordGenerator/account.php');
-    exit();
+    $errors[] = 'addAccount';
+    // header('Location: http://localhost/PasswordGenerator/account.php');
+    // exit();
   }
 }
 ?>

@@ -56,14 +56,6 @@ function dec($data,$private_key) {
 }
 function getHash($string,$index_key){
     $index_key = base64_decode($index_key);
-    return bin2hex(
-        sodium_crypto_pwhash(
-            32,
-            $string,
-            $index_key,
-            SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,
-            SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE
-        )
-    );
+    return bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
 	}
 ?>
