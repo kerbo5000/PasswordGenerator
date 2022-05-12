@@ -15,9 +15,12 @@ if(isset($_POST['login-submit'])){
         header('Location: http://localhost/PasswordGenerator/account.php');
         exit();
       }else{
+        $passwordLogin ="";
         $errors[] = 'password doesn\'t match with account';
       }
     }else{
+      $usernameLogin = "";
+      $passwordLogin ="";
       $errors[] ='account doesn\'t exist';
     }
   }

@@ -1,23 +1,25 @@
 const loginBtn = document.getElementById('login-btn');
 const signupBtn = document.getElementById('signup-btn');
-const tabs = document.getElementsByClassName('tab')
+const tabs = document.getElementsByClassName('tab-pane')
+const navs = document.getElementsByClassName('nav-link')
 loginBtn.addEventListener("click",tabSwitch);
 signupBtn.addEventListener("click",tabSwitch);
 // let php = "<?php $_POST = array();?>";
 function tabSwitch(e){
-  Array.from(tabs).forEach((item) => {
-    if(e.target.value != item.id){
-      item.style.display = "none";
+  Array.from(navs).forEach((item) => {
+    if(e.target != item){
+      item.classList.remove("active");
     }else{
-      item.style.display ="";
+      item.classList.add("active");
     }
   });
-  // alert(php);
+  Array.from(tabs).forEach((item) => {
+    if(e.target.value != item.id){
+      item.classList.remove("active");
+      item.classList.remove("show");
+    }else{
+      item.classList.add("active");
+      item.classList.add("show");
+    }
+  });
 }
-const pwd = document.getElementById('password');
-const manual = document.getElementById('manual');
-const generate = document.getElementById('generate');
-manual.addEventListener("click",(){
-  pwd.disabled = false;
-}));
-signupBtn.addEventListener("click",tabSwitch);

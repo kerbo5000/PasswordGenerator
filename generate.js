@@ -5,8 +5,14 @@ manual.addEventListener("click",()=>{
   pwd.disabled = false;
 });
 const pwdForm = document.getElementById('pwd-generator');
+const formDiv = document.getElementById('form-div');
 generate.addEventListener("click",()=>{
-  pwdForm.style.display="";
+  if(formDiv.style.display == 'none'){
+    formDiv.style.display="";
+  }else{
+    formDiv.style.display="none";
+  }
+
 });
 const numbers = "0123456789";
 const lowerCase ="abcdefghijklmnopqrstuvwxyz";
