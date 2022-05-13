@@ -8,6 +8,7 @@ if(!isset($_SESSION['id'])){
 }
 if(isset($_POST['id-delete'])){
   $statement = $pdo->prepare('DELETE FROM accounts WHERE accountID = :accountid');
+  echo $_POST['actID'];
   $statement->bindValue(':accountid',$_POST['actID']);
   $statement->execute();
   $success[] = 'Account has been deleted';

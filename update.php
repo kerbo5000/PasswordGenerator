@@ -1,25 +1,33 @@
 <?php
+if(!isset($_SESSION)){
   session_start();
-  if(!(isset($_SESSION['id']) && isset($_GET['id']))){
+}
+  if(!isset($_SESSION['id'])){
     header('Location: http://localhost/PasswordGenerator/frontpage.php');
     exit();
   }
   //include 'dbconnection.php';
   // include 'config.php';
   // include 'functions.php';
-
+echo 'byeeeeee';
   //echo base64_decode($_GET['id']).'<br>';
-  if(isset($_POST['id-edit'])){
+  if(isset($_POST['id-pre-edit'])){
+    echo 'bye';
+    echo '<br>';
+    echo $_POST['actID'];
+    echo '<br>';
     $statement = $pdo->prepare('SELECT * FROM accounts WHERE accountID = :accountid');
-    $statement->bindValue(':accountid',base64_decode($_POST['actID']));
+    $statement->bindValue(':accountid',$_POST['actID']);
     $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    $accountNameEdit = $result[0]['accountName'];
-    $usernameEdit = dec($result[0]['username'],$private_key);
-    $emailEdit = dec($result[0]['email'],$private_key);
-    $passwordEdit = dec($result[0]['password'],$private_key);
-    $errors = [];
-    if(isset($_POST['submit'])){
+    $resultUpdate = $statement->fetchAll(PDO::FETCH_ASSOC);
+    var_dump($resultUpdate);
+    $accountNameEdit = $resultUpdate[0]['accountName'];
+    $usernameEdit = dec($resultUpdate[0]['username'],$private_key);
+    $emailEdit = dec($resultUpdate[0]['email'],$private_key);
+    $passwordEdit = dec($resultUpdate[0]['password'],$private_key);
+    // $errors = [];
+    if(isset($_POST['id-edit'])){
+      echo 'hiii';
       $usernameEdit = $_POST['username'];
       $emailEdit = $_POST['email'];
       $passwordEdit = $_POST['password'];
@@ -43,10 +51,18 @@
         $statement->bindValue(':accountName',$accountNameEdit);
         $statement->bindValue(':email',enc($emailEdit,$private_key));
         $statement->bindValue(':password',enc($passwordEdit,$private_key));
-        $statement->bindValue(':accountid',base64_decode($_GET['id']));
+        $statement->bindValue(':accountid',$_POSt['actID']);
         $statement->execute();
-        header('Location: http://localhost/PasswordGenerator/account.php');
-        exit();
+        $success[] = 'Account has been updated';
+        $success[] = 'warning';
+        // header('Location: http://localhost/PasswordGenerator/account.php');
+        // exit();
+      }else{
+        echo 'hi';
+        $errors[] = 'edit';
+        $urlErrors = '&errors='.urlencode(serialize($errors));
+        $data = '&accountName='.$accountNameEdit.'&username='.$usernameEdit.'&email='.$emailEdit.'&password='.$passwordEdit;
+        header('Location: http://localhost/PasswordGenerator/account.php?id='.$_POST['actID'].$urlErrors.$data);
       }
     }
   }

@@ -8,14 +8,26 @@ $username = '';
 $email ='';
 $password = '';
 $accountName ='';
+$usernameEdit = '';
+$emailEdit ='';
+$passwordEdit = '';
+$accountNameEdit ='';
 $result;
 $errors = [];
 $success = [];
 include 'config.php';
 include 'functions.php';
 include 'addAccount.php';
+include 'update.php';
 include 'delete.php';
 include 'display.php';
+if(isset($_GET['errors'])){
+  $errors = unserialize($_GET['errors']);
+  $usernameEdit = $_GET['username'];
+  $emailEdit =$_GET['email'];
+  $passwordEdit = $_GET['password'];
+  $accountNameEdit =$_GET['accountName'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,12 +44,19 @@ include 'display.php';
   <title>Password Generator</title>
 </head>
 <body>
+  <?php if(!empty($success) && $success[1] == 'success'){
+    $username = '';
+    $email ='';
+    $password = '';
+    $accountName ='';
+
+  } ?>
 <!-- Modal -->
 <div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add account</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -69,19 +88,19 @@ include 'display.php';
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <div class="d-grid gap-2 d-md-block mb-3">
-                  <button type="button" class="btn btn-primary" id='manual'>Manual</button>
-                  <button type="button" class="btn btn-primary" id='generate'>Generate</button>
+                  <button type="button" class="btn btn-primary manaul">Manual</button>
+                  <button type="button" class="btn btn-primary generate">Generate</button>
                 </div>
-                <input class="form-control" id="password" type="text" aria-label="Disabled input example" disabled name="password" value=<?php echo $password?>>
+                <input class="form-control password" type="text" aria-label="Disabled input example" disabled name="password" value=<?php echo $password?>>
               </div>
               <input type="submit" class="btn btn-primary" name="submit">
             </form>
           </div>
-          <div class="col" id="form-div" style="display:none;">
-            <form id="pwd-generator" >
+          <div class="col form-div" style="display:none;">
+            <form class="pwd-generator" >
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password length</label>
-                <input type="number" class="form-control" id="length">
+                <input type="number" class="form-control length">
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault">
@@ -119,13 +138,13 @@ include 'display.php';
     </div>
   </div>
 </div>
-
+<button type="hidden" data-bs-toggle="modal" data-bs-target="#edit" id='dummy' ></button>
 <!-- Modal -->
 <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit account</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -139,7 +158,7 @@ include 'display.php';
                   <?php endforeach; ?>
                 </div>
               </div>
-              <?php $errors[] = 'edit';?>
+              <!-- <?php $errors[] = 'edit';?> -->
             <?php endif ?>
             <form action="account.php" method="POST">
               <div class="mb-3">
@@ -157,43 +176,43 @@ include 'display.php';
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <div class="d-grid gap-2 d-md-block mb-3">
-                  <button type="button" class="btn btn-primary" id='manual'>Manual</button>
-                  <button type="button" class="btn btn-primary" id='generate'>Generate</button>
+                  <button type="button" class="btn btn-primary manual">Manual</button>
+                  <button type="button" class="btn btn-primary generate">Generate</button>
                 </div>
-                <input class="form-control" id="password" type="text" aria-label="Disabled input example" disabled name="password" value=<?php echo $passwordEdit?>>
+                <input class="form-control password" type="text" aria-label="Disabled input example" disabled name="password" value=<?php echo $passwordEdit?>>
               </div>
-              <input type="submit" class="btn btn-primary" name="submit">
+              <input type="submit" class="btn btn-primary" name="id-edit">
               <input type="hidden" name="actID" id='hidden-edit'>
-                  <input class="btn btn-outline-warning" name="id-edit" type="submit" value="Edit"data-bs-toggle="modal" data-bs-target="#edit">
+                  <!-- <input class="btn btn-outline-warning" name="id-edit" type="submit" value="Edit"data-bs-toggle="modal" data-bs-target="#edit"> -->
             </form>
           </div>
-          <div class="col" id="form-div" style="display:none;">
-            <form id="pwd-generator" >
+          <div class="col form-div" style="display:none;">
+            <form class="pwd-generator" >
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password length</label>
-                <input type="number" class="form-control" id="length">
+                <input type="number" class="form-control length">
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefaultv">
+                <label class="form-check-label" for="flexCheckDefaultv">
                   Numbers
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked1" >
-                <label class="form-check-label" for="flexCheckChecked1">
+                <input class="form-check-input" type="checkbox" value="1" id="flexCheckCheckedv1" >
+                <label class="form-check-label" for="flexCheckCheckedv1">
                   Lower case letters
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="2" id="flexCheckChecked2" >
-                <label class="form-check-label" for="flexCheckChecked2">
+                <input class="form-check-input" type="checkbox" value="2" id="flexCheckCheckedv2" >
+                <label class="form-check-label" for="flexCheckCheckedv2">
                   Upper case letters
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="3" id="flexCheckChecked3">
-                <label class="form-check-label" for="flexCheckChecked3">
+                <input class="form-check-input" type="checkbox" value="3" id="flexCheckCheckedv3">
+                <label class="form-check-label" for="flexCheckCheckedv3">
                   Special characters (!@#$%^*?|~&)
                 </label>
               </div>
@@ -204,7 +223,6 @@ include 'display.php';
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -273,13 +291,18 @@ include 'display.php';
           <button  class="btn btn-primary" id="add-btn"data-bs-toggle="modal" data-bs-target="#add">Add Account</button>
         </div>
       </div>
-      <?php if(!empty($errors) && end($errors)=='addAccount'&& array_pop($errors)):?>
+      <?php if(!empty($errors) && end($errors)=='addAccount'):?>
         <script>const event = new Event('click');
                   document.getElementById('add-btn').dispatchEvent(event);</script>
       <?php endif ?>
-      <?php if(!empty($errors) && end($errors)=='edit'&& array_pop($errors)):?>
+      <?php if((!empty($errors) && end($errors)=='edit')|| !empty($accountNameEdit)):?>
         <script>const event = new Event('click');
-                  document.getElementById('add-btn').dispatchEvent(event);</script>
+                  document.getElementsById('dummy').dispatchEvent(event);
+                  const hiddenEdit = document.getElementById('hidden-edit');
+                  <?php if(isset($_GET['id']))
+                     echo 'hiddenEdit.value ='.$_GET['id'];
+                  ?>
+                </script>
       <?php endif ?>
       <?php if(!empty($success) && $color = array_pop($success)):?>
         <div class="row mt-3">
@@ -312,10 +335,11 @@ include 'display.php';
                   ?>>
                   <input class="btn btn-outline-warning" name="id-edit" type="submit" value="Edit"data-bs-toggle="modal" data-bs-target="#edit">
                 </form> -->
-                <button  class="btn btn-outline-warning edit-btn"data-bs-toggle="modal" data-bs-target="#edit" value=<?php echo base64_encode($account['accountID']);
-                ?>>Edit</button>
-                 <!-- <a class="btn btn-outline-warning" href="http://localhost/PasswordGenerator/update.php?id=<?php echo base64_encode($account['accountID'])
-                ?>" role="button">Edit</a> -->
+                <form action="account.php" method="post" style="display:inline-block;">
+                  <input type="hidden" name="actID" value=<?php echo $account['accountID'] ?>>
+                  <!-- <input class="btn btn-outline-warning" id='edit-btn' name="id-pre-edit" type="submit" value="Edit"> -->
+                  <button  type='submit' class="btn btn-outline-warning edit-btn" name="id-pre-edit">Edit</button>
+                </form>
                 <form action="account.php" method="post" style="display:inline-block;">
                   <input type="hidden" name="actID" value=<?php echo $account['accountID'] ?>>
                   <input class="btn btn-outline-danger" name="id-delete" type="submit" value="Delete">
@@ -329,14 +353,14 @@ include 'display.php';
   </div>
 </div>
 </div>
-<script>
+<!-- <script>
   const hiddenEdit = document.getElementById('hidden-edit');
-  Array.from(document.getElementsByClassName('edit-btn')).forEach((item) => {
+  Array.from(document.getElementsById('dummy')).forEach((item) => {
     item.addEventListener('click',()=>{
       hiddenEdit.value = item.value;
     })
   });
-</script>
+</script> -->
 <script src="generate.js"></script>
 </body>
 </html>
