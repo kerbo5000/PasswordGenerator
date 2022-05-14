@@ -1,9 +1,9 @@
 const pwd = document.getElementsByClassName('password');
 const manual = document.getElementsByClassName('manual');
 const generate = document.getElementsByClassName('generate');
-Array.from(manual).forEach((item) => {
+Array.from(manual).forEach((item,i) => {
   item.addEventListener("click",()=>{
-    item.disabled = false;
+    pwd[i].readOnly = false;
   });
 });
 
@@ -59,7 +59,7 @@ function pwdGeneration(e){
     message.appendChild(document.createTextNode("you have to select at least one option"));
     message.appendChild(document.createElement('br'));
   }
-  if(checked.length > length){
+  if(checked.length > length && length>0){
     message.appendChild(document.createTextNode("the password length is too short for the number of selected options"));
     message.appendChild(document.createElement('br'));
   }
@@ -94,5 +94,26 @@ function pwdGeneration(e){
     result[i] = options[result[i]][Math.floor(Math.random()*options[result[i]].length)];
   });
   pwd[e.currentTarget.index].value = result.join('');
-  pwd[e.currentTarget.index].disabled = false;
+  pwd[e.currentTarget.index].readOnly = false;
+}
+
+const editBtn = document.getElementsByClassName('edit-btn');
+Array.from(editBtn).forEach((item,i) => {
+  item.addEventListener('click',editModal);
+  item.index = i;
+});
+const dummy = document.getElementById('dummy');
+const modalEvent = new Event('click');
+const inputEditForm = document.getElementById('edit-form').querySelectorAll("input[type='text']");
+const hiddenEdit = document.getElementById('hidden-edit');
+function editModal(e){
+  e.preventDefault();
+  const data = document.getElementsByTagName('tr')[e.currentTarget.index+1].getElementsByTagName('td');
+  console.log(data);
+  console.log(inputEditForm);
+  inputEditForm.forEach((item, i) => {
+    item.value = data[i].innerText;
+  });
+  hiddenEdit.value = e.currentTarget.value;
+  dummy.dispatchEvent(modalEvent);
 }
