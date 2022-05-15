@@ -49,9 +49,9 @@ function pwdGeneration(e){
     message.className +=' mt-3';
     message.setAttribute('role','alert');
     pwdForm[e.currentTarget.index].appendChild(message);
-    setTimeout(function(){
-      pwdForm[e.currentTarget.index].removeChild(message);
-    },4000)
+    setTimeout(function(i){
+      pwdForm[i].removeChild(message);
+    },4000,e.currentTarget.index)
     return
   }
   let result = Array(length).fill(-1);
@@ -75,6 +75,7 @@ function pwdGeneration(e){
   pwd[e.currentTarget.index].value = result.join('');
   pwd[e.currentTarget.index].readOnly = false;
 }
+
 const editBtn = document.getElementsByClassName('edit-btn');
 Array.from(editBtn).forEach((item,i) => {
   item.addEventListener('click',editModal);

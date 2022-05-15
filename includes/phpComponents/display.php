@@ -13,27 +13,29 @@ if(!isset($_POST['search-btn'])){
 }else{
   if(isset($_POST['filter'])&& !empty($_POST['search'])){
     include_once __DIR__.'/../extraComponents/functions.php';
+    $value = $_POST['search'];
     switch($_POST['filter']){
       case 'accountName':
         $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND accountName = :search');
-        $statement->bindValue(':search',$_POST['search']);
+        $statement->bindValue(':search',$value);
         break;
       case 'email':
         $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND emailHash = :search');
-        $statement->bindValue(':search',getHash($_POST['search'],$index_key));
+        $statement->bindValue(':search',getHash($value,$index_key));
         break;
       case 'username':
+
         $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND usernameHash = :search');
-        $statement->bindValue(':search',getHash($_POST['search'],$index_key));
+        $statement->bindValue(':search',getHash($value,$index_key));
         break;
       case 'password':
         $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND passwordHash = :search');
-        $statement->bindValue(':search',getHash($_POST['search'],$index_key));
+        $statement->bindValue(':search',getHash($value,$index_key));
         break;
     }
   }else{
     $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid');
-    $errors[] = 'search field has to be filled and option has to be selected for filter';
+    $errors[] = 'Search field has to be filled and option has to be selected for filter to work';
     $errors[] = 'filter';
   }
 }
@@ -41,7 +43,7 @@ $statement->bindValue(':userid',$_SESSION['id']);
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 if(empty($result)){
-  $errors[] = 'no results were found';
+  $errors[] = 'No results were found';
   $errors[] = 'filter';
 }
  ?>
