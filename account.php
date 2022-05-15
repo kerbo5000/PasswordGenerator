@@ -12,12 +12,6 @@ $usernameEdit = '';
 $emailEdit = '';
 $passwordEdit = '';
 $accountNameEdit = '';
-if(isset($_POST['id-edit'])){
-  $usernameEdit = $_POST['usernameEdit'];
-  $emailEdit = $_POST['emailEdit'];
-  $passwordEdit = $_POST['passwordEdit'];
-  $accountNameEdit = $_POST['accountNameEdit'];
-}
 $result;
 $errors = [];
 $success = [];
@@ -74,6 +68,7 @@ if(isset($_GET['id'])){
               </form>
             </div>
           </div>
+          <p class="h5"> Hi, <?php echo $_SESSION['username'];?></p>
         </div>
         <div class="card-body">
           <h5 class="card-title">Display Accounts</h5>

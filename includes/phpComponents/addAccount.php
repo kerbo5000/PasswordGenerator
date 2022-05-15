@@ -9,14 +9,10 @@ if(!isset($_SESSION['id'])){
 if(isset($_POST['submit'])){
   include_once __DIR__.'/../extraComponents/config.php';
   include_once __DIR__.'/../extraComponents/functions.php';
-  $accountName = $_POST['account-name'];
-  $username = $_POST['username'];
-  $email = $_POST['email'];
-  if(isset($_POST['password'])){
-    $password = $_POST['password'];
-  }else{
-    $password = "";
-  }
+  $accountName = trim($_POST['account-name']);
+  $username = trim($_POST['username']);
+  $email = trim($_POST['email']);
+  $password = trim($_POST['password']);
   if(!empty($email)){
     if(invalidEmail($email)){
       $email = '';
