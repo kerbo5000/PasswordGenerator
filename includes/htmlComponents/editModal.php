@@ -4,13 +4,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit account</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close close-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col">
+          <div class="col modal-input">
             <?php if(!empty($errors) && end($errors)=='edit'&& array_pop($errors)):?>
-              <div class="row">
+              <div class="row modal-errors">
                 <div class="alert alert-danger" role="alert">
                   <?php foreach ($errors as $error):?>
                     <p class="mb-0"><?php echo $error ?></p>
@@ -44,7 +44,7 @@
               <input type="hidden" name="actID" id='hidden-edit'>
             </form>
           </div>
-          <div class="col form-div" style="display:none;">
+          <div class="col pwd-div" style="display:none;">
             <form class="pwd-generator" >
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password length</label>
@@ -80,7 +80,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary close-2" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

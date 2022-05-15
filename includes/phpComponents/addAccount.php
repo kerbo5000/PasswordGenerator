@@ -27,19 +27,34 @@ if(isset($_POST['submit'])){
     }
   }
   if(empty($errors)){
-    $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID,usernameHash,emailHash,passwordHash) VALUES (:user, :email, :password,:accountName,:userid,:usernameHash,:emailHash,:passwordHash)');
-    // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
-    $statement->bindValue(':user',enc($username,$private_key));
-    $statement->bindValue(':accountName',$accountName);
-    $statement->bindValue(':email',enc($email,$private_key));
-    $statement->bindValue(':password',enc($password,$private_key));
+    $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND accountName = :accountName AND usernameHash = :usernameHash AND emailHash = :emailHash');
     $statement->bindValue(':usernameHash',getHash($username,$index_key));
     $statement->bindValue(':emailHash',getHash($email,$index_key));
-    $statement->bindValue(':passwordHash',getHash($password,$index_key));
+    $statement->bindValue(':accountName',$accountName);
     $statement->bindValue(':userid',$_SESSION['id']);
     $statement->execute();
-    $success[] = 'Account has been added';
-    $success[] = 'success';
+    $test = $statement->fetchAll(PDO::FETCH_ASSOC);
+    if(empty($test)){
+      $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID,usernameHash,emailHash,passwordHash) VALUES (:user, :email, :password,:accountName,:userid,:usernameHash,:emailHash,:passwordHash)');
+      // $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
+      $statement->bindValue(':user',enc($username,$private_key));
+      $statement->bindValue(':accountName',$accountName);
+      $statement->bindValue(':email',enc($email,$private_key));
+      $statement->bindValue(':password',enc($password,$private_key));
+      $statement->bindValue(':usernameHash',getHash($username,$index_key));
+      $statement->bindValue(':emailHash',getHash($email,$index_key));
+      $statement->bindValue(':passwordHash',getHash($password,$index_key));
+      $statement->bindValue(':userid',$_SESSION['id']);
+      $statement->execute();
+      $success[] = 'Account has been added';
+      $success[] = 'success';
+    }else{
+      $errors[] = 'Account already exists, you can update it here';
+      $errors[] = 'edit';
+      $urlErrors = '&errors='.urlencode(serialize($errors));
+      $data = '&accountName='.$accountName.'&username='.$username.'&email='.$email.'&password='.dec($test[0]['password'],$private_key);
+      header('Location: http://localhost/PasswordGenerator/account.php?id='.base64_encode($test[0]['accountID']).$urlErrors.$data);
+    }
   }else{
     $errors[] = 'addAccount';
   }

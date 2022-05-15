@@ -15,8 +15,6 @@ $accountNameEdit = '';
 $result;
 $errors = [];
 $success = [];
-// include 'includes/extraComponents/config.php';
-// include 'includes/extraComponents/functions.php';
 include 'includes/phpComponents/logout.php';
 include 'includes/phpComponents/addAccount.php';
 include 'includes/phpComponents/update.php';
@@ -50,7 +48,6 @@ if(isset($_GET['id'])){
     $email ='';
     $password = '';
     $accountName ='';
-
   } ?>
   <?php include 'includes/htmlComponents/addAccountModal.php';?>
   <?php include 'includes/htmlComponents/editModal.php';?>
@@ -85,15 +82,15 @@ if(isset($_GET['id'])){
         <?php if((!empty($errors) && end($errors)=='edit')):?>
           <script>const event = new Event('click');
           document.getElementById('dummy').dispatchEvent(event);
-          const hiddenEdit = document.getElementById('hidden-edit');
+          const hiddenEditError = document.getElementById('hidden-edit');
           <?php if(isset($_GET['id']))
-          echo 'hiddenEdit.value ='.base64_decode($_GET['id']);
+          echo 'hiddenEditError.value ='.base64_decode($_GET['id']);
           ?>
           </script>
         <?php endif ?>
-        <?php if(!empty($success) && $color = array_pop($success)):?>
+        <?php if(!empty($success) ):?>
           <div class="row mt-3">
-            <div class="alert alert-<?php echo $color?>" role="alert">
+            <div class="alert alert-<?php echo $success[1]?>" role="alert">
               <p class="mb-0"><?php echo $success[0] ?></p>
             </div>
           </div>
@@ -115,5 +112,11 @@ if(isset($_GET['id'])){
   </div>
 </div>
 <script src="javascript/generate.js"></script>
+<?php if(!empty($success) && $success[1] == 'success'):?>
+  <script>
+    const event = new Event('click');
+    close[0].dispatchEvent(event);
+  </script>
+<?php endif?>
 </body>
 </html>

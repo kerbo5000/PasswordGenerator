@@ -7,7 +7,7 @@ Array.from(manual).forEach((item,i) => {
   });
 });
 const pwdForm = document.getElementsByClassName('pwd-generator');
-const formDiv = document.getElementsByClassName('form-div');
+const formDiv = document.getElementsByClassName('pwd-div');
 Array.from(generate).forEach((item,i) => {
   item.addEventListener("click",()=>{
     if(formDiv[i].style.display == 'none'){
@@ -88,11 +88,31 @@ const hiddenEdit = document.getElementById('hidden-edit');
 function editModal(e){
   e.preventDefault();
   const data = document.getElementsByTagName('tr')[e.currentTarget.index+1].getElementsByTagName('td');
-  console.log(data);
-  console.log(inputEditForm);
   inputEditForm.forEach((item, i) => {
     item.value = data[i].innerText;
   });
   hiddenEdit.value = e.currentTarget.value;
   dummy.dispatchEvent(modalEvent);
+}
+
+const close1 = document.getElementsByClassName('close-1');
+const close2 = document.getElementsByClassName('close-2');
+const modalInput= document.getElementsByClassName('modal-input');
+Array.from(close1).forEach((item, i) => {
+  item.addEventListener('click',resetForm)
+  item.index = i;
+});
+Array.from(close2).forEach((item, i) => {
+  item.addEventListener('click',resetForm)
+  item.index = i;
+});
+function resetForm(e){
+  const inputs = modalInput[e.currentTarget.index].querySelectorAll("input[type='text']");
+  inputs.forEach((item, i) => {
+    item.value = '';
+  });
+  const alert = modalInput[e.currentTarget.index].querySelector('.modal-errors');
+  if(alert != null){
+    modalInput[e.currentTarget.index].removeChild(alert);
+  }
 }
