@@ -7,8 +7,8 @@ if(!isset($_SESSION['id'])){
   exit();
 }
 if(isset($_POST['id-delete'])){
+  include_once __DIR__.'/../extraComponents/config.php';
   $statement = $pdo->prepare('DELETE FROM accounts WHERE accountID = :accountid');
-  echo $_POST['actID'];
   $statement->bindValue(':accountid',$_POST['actID']);
   $statement->execute();
   $success[] = 'Account has been deleted';

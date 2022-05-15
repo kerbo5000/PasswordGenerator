@@ -4,7 +4,6 @@ const tabs = document.getElementsByClassName('tab-pane')
 const navs = document.getElementsByClassName('nav-link')
 loginBtn.addEventListener("click",tabSwitch);
 signupBtn.addEventListener("click",tabSwitch);
-// let php = "<?php $_POST = array();?>";
 function tabSwitch(e){
   Array.from(navs).forEach((item) => {
     if(e.target != item){

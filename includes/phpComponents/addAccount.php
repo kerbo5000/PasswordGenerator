@@ -7,6 +7,8 @@ if(!isset($_SESSION['id'])){
   exit();
 }
 if(isset($_POST['submit'])){
+  include_once __DIR__.'/../extraComponents/config.php';
+  include_once __DIR__.'/../extraComponents/functions.php';
   $accountName = $_POST['account-name'];
   $username = $_POST['username'];
   $email = $_POST['email'];
@@ -15,7 +17,6 @@ if(isset($_POST['submit'])){
   }else{
     $password = "";
   }
-
   if(!empty($email)){
     if(invalidEmail($email)){
       $email = '';

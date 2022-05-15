@@ -6,14 +6,6 @@ Array.from(manual).forEach((item,i) => {
     pwd[i].readOnly = false;
   });
 });
-
-// manual[0].addEventListener("click",()=>{
-//   pwd[0].disabled = false;
-// });
-// manual[1].addEventListener("click",()=>{
-//   pwd[1].disabled = false;
-// });
-
 const pwdForm = document.getElementsByClassName('pwd-generator');
 const formDiv = document.getElementsByClassName('form-div');
 Array.from(generate).forEach((item,i) => {
@@ -25,15 +17,6 @@ Array.from(generate).forEach((item,i) => {
     }
   });
 });
-
-// generate[0].addEventListener("click",()=>{
-//   if(formDiv[0].style.display == 'none'){
-//     formDiv[0].style.display="";
-//   }else{
-//     formDiv[0].style.display="none";
-//   }
-//
-// });
 const numbers = "0123456789";
 const lowerCase ="abcdefghijklmnopqrstuvwxyz";
 const upperCase ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -43,12 +26,9 @@ Array.from(pwdForm).forEach((item, i) => {
   item.addEventListener('submit',pwdGeneration);
   item.index = i;
 });
-
-// pwdForm[0].addEventListener("submit",pwdGeneration);
 function pwdGeneration(e){
   e.preventDefault();
   const length = Number(document.getElementsByClassName("length")[e.currentTarget.index].value);
-  //const message = document.createElement('h3')
   const message = document.createElement('div')
   if(!Number.isInteger(length)||length<= 0){
     message.appendChild(document.createTextNode("the password length has to be greater than 0"));
@@ -63,7 +43,6 @@ function pwdGeneration(e){
     message.appendChild(document.createTextNode("the password length is too short for the number of selected options"));
     message.appendChild(document.createElement('br'));
   }
-
   if(message.childNodes.length != 0){
     message.className = 'alert';
     message.className +=' alert-danger';
@@ -96,7 +75,6 @@ function pwdGeneration(e){
   pwd[e.currentTarget.index].value = result.join('');
   pwd[e.currentTarget.index].readOnly = false;
 }
-
 const editBtn = document.getElementsByClassName('edit-btn');
 Array.from(editBtn).forEach((item,i) => {
   item.addEventListener('click',editModal);

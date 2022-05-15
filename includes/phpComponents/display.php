@@ -7,10 +7,12 @@ if(!isset($_SESSION['id'])){
   exit();
 }
 
+include_once __DIR__.'/../extraComponents/config.php';
 if(!isset($_POST['search-btn'])){
   $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid');
 }else{
   if(isset($_POST['filter'])&& !empty($_POST['search'])){
+    include_once __DIR__.'/../extraComponents/functions.php';
     switch($_POST['filter']){
       case 'accountName':
         $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND accountName = :search');
@@ -38,29 +40,8 @@ if(!isset($_POST['search-btn'])){
 $statement->bindValue(':userid',$_SESSION['id']);
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-// if(isset($_GET['search']) && isset($_GET['filter'])&& !empty($_GET['search'])){
-//   switch($_GET['filter']){
-//     case 'accountName':
-//       $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND accountName = :search');
-//       $statement->bindValue(':search',$_GET['search']);
-//       break;
-//     case 'email':
-//       $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND emailHash = :search');
-//       $statement->bindValue(':search',getHash($_GET['search'],$index_key));
-//       break;
-//     case 'username':
-//       $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND usernameHash = :search');
-//       $statement->bindValue(':search',getHash($_GET['search'],$index_key));
-//       break;
-//     case 'password':
-//       $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND passwordHash = :search');
-//       $statement->bindValue(':search',getHash($_GET['search'],$index_key));
-//       break;
-//   }
-// }else{
-//   $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid');
-// }
-// $statement->bindValue(':userid',$_SESSION['id']);
-// $statement->execute();
-// $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+if(empty($result)){
+  $errors[] = 'no results were found';
+  $errors[] = 'filter';
+}
  ?>

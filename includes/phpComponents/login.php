@@ -1,9 +1,9 @@
 <?php
 if(isset($_POST['login-submit'])){
+  include_once __DIR__.'/../extraComponents/config.php';
+  include_once __DIR__.'/../extraComponents/functions.php';
   $usernameLogin = $_POST['login-username'];
   $passwordLogin = $_POST['login-password'];
-  include_once 'config.php';
-  include_once 'functions.php';
   if(empty($usernameLogin) || empty($passwordLogin)){
     $errors[] ='missing inputs';
   }else{

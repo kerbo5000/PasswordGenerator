@@ -1,11 +1,11 @@
 <?php
 if(isset($_POST['signup-submit'])){
+  include_once __DIR__.'/../extraComponents/config.php';
+  include_once __DIR__.'/../extraComponents/functions.php';
   $usernameSignup = $_POST['signup-username'];
   $emailSignup = $_POST['signup-email'];
   $passwordSignup = $_POST['signup-password'];
   $repeatPwdSignup = $_POST['signup-repeat-password'];
-  include_once 'config.php';
-  include_once 'functions.php';
   $valid_username = true;
   $valid_email = true;
   if(!empty($usernameSignup)){
@@ -51,6 +51,16 @@ if(isset($_POST['signup-submit'])){
     $user = userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key);
     session_start();
     $_SESSION['id'] = $user[0]['id'];
+    $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID,usernameHash,emailHash,passwordHash) VALUES (:user, :email, :password,:accountName,:userid,:usernameHash,:emailHash,:passwordHash)');
+    $statement->bindValue(':user',enc($usernameSignup,$private_key));
+    $statement->bindValue(':accountName','Password Storage');
+    $statement->bindValue(':email',enc($emailSignup,$private_key));
+    $statement->bindValue(':password',enc($passwordSignup,$private_key));
+    $statement->bindValue(':usernameHash',getHash($usernameSignup,$index_key));
+    $statement->bindValue(':emailHash',getHash($emailSignup,$index_key));
+    $statement->bindValue(':passwordHash',getHash($passwordSignup,$index_key));
+    $statement->bindValue(':userid',$_SESSION['id']);
+    $statement->execute();
     header('Location: http://localhost/PasswordGenerator/account.php');
     exit();
   }else{

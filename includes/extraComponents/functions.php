@@ -2,11 +2,9 @@
 function invalidUsername($username){
   return (!preg_match('/^[a-zA-Z0-9]*$/',$username));
 }
-
 function invalidEmail($email){
   return (!filter_var($email,FILTER_VALIDATE_EMAIL));
 }
-
 function pwdMatch($password,$repeatPwd){
   return $password !== $repeatPwd;
 }
@@ -36,16 +34,11 @@ function createUser($pdo,$username,$email,$password,$private_key,$index_key){
 
 function enc($data,$private_key){
   $key = base64_decode($private_key);
-  // get nonce for encryption
   $nonce_data = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
-  // encrypt data
   $data = sodium_crypto_secretbox($data, $nonce_data, $key);
-
-  // encode data for saving into db
   $data = base64_encode($nonce_data . $data);
   return $data;
 }
-
 function dec($data,$private_key) {
   $decoded = base64_decode($data);
   $key = base64_decode($private_key);
