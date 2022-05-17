@@ -111,6 +111,7 @@ function resetForm(e){
   inputs.forEach((item, i) => {
     item.value = '';
   });
+  pwd[e.currentTarget.index].readOnly = true;
   const alert = modalInput[e.currentTarget.index].querySelector('.modal-errors');
   if(alert != null){
     modalInput[e.currentTarget.index].removeChild(alert);

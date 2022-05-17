@@ -53,11 +53,11 @@ include 'includes/phpComponents/login.php';
                     <?php endif ?>
                     <form action="frontpage.php" method="POST">
                       <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Username/Email</label>
-                        <input type="text" class="form-control" name="login-username" aria-describedby="emailHelp" value=<?php echo $usernameLogin?>>
+                        <label class="form-label">Username/Email</label>
+                        <input type="text" class="form-control" autocomplete="off" name="login-username" aria-describedby="emailHelp" value=<?php echo $usernameLogin?>>
                       </div>
                       <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <label class="form-label">Password</label>
                         <input type="password" class="form-control" name="login-password" value=<?php echo $passwordLogin?>>
                       </div>
                       <button type="submit" class="btn btn-primary" name="login-submit">Submit</button>
@@ -75,19 +75,19 @@ include 'includes/phpComponents/login.php';
                     <?php endif ?>
                     <form action="frontpage.php" method="POST">
                       <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                        <input type="text" class="form-control" aria-describedby="emailHelp" name="signup-email" value=<?php echo $emailSignup?>>
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" autocomplete="off" aria-describedby="emailHelp" name="signup-email" value=<?php echo $emailSignup?>>
                       </div>
                       <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">usename</label>
-                        <input type="text" class="form-control" aria-describedby="emailHelp" name="signup-username" value=<?php echo $usernameSignup?>>
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" autocomplete="off" aria-describedby="emailHelp" name="signup-username" value=<?php echo $usernameSignup?>>
                       </div>
                       <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <label class="form-label">Password</label>
                         <input type="password" class="form-control" name="signup-password" value=<?php echo $passwordSignup?>>
                       </div>
                       <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Reapeat password</label>
+                        <label class="form-label">Reapeat password</label>
                         <input type="password" class="form-control" name="signup-repeat-password" value=<?php echo $repeatPwdSignup?>>
                       </div>
                       <button type="submit" class="btn btn-primary" name="signup-submit">Submit</button>

@@ -1,8 +1,8 @@
 <form action="account.php" method="post">
   <div class="row mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Search</label>
+    <label class="col-sm-2 col-form-label">Search</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputEmail3" name="search">
+      <input type="text" class="form-control" autocomplete="off" name="search">
     </div>
   </div>
   <fieldset class="row mb-3">
@@ -36,6 +36,6 @@
   </fieldset>
   <div class="d-grid gap-2 d-md-block mb-3 text-end">
     <button type="submit" class="btn btn-primary" name="search-btn">Search</button>
-    <button type="submit" class="btn btn-primary">Reset</button>
+    <button type="submit" class="btn btn-success">Reset</button>
   </div>
 </form>
