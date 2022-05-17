@@ -27,7 +27,7 @@ if(isset($_POST['submit'])){
     }
   }
   if(empty($errors)){
-    $statement = $pdo->prepare('SELECT * FROM accounts WHERE userID = :userid AND accountName = :accountName AND usernameHash = :usernameHash AND emailHash = :emailHash');
+    $statement = $pdo->prepare('SELECT accountID,password FROM accounts WHERE userID = :userid AND accountName = :accountName AND usernameHash = :usernameHash AND emailHash = :emailHash LIMIT 1');
     $statement->bindValue(':usernameHash',getHash($username,$index_key));
     $statement->bindValue(':emailHash',getHash($email,$index_key));
     $statement->bindValue(':accountName',$accountName);

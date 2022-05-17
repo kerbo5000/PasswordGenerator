@@ -51,7 +51,7 @@ if(isset($_POST['signup-submit'])){
     $user = userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key);
     session_start();
     $_SESSION['id'] = $user[0]['id'];
-    $_SESSION['username'] = dec($info[0]["username"],$private_key);
+    $_SESSION['username'] = $usernameSignup;
     $statement = $pdo->prepare('INSERT INTO accounts (username, email, password,accountName,userID,usernameHash,emailHash,passwordHash) VALUES (:user, :email, :password,:accountName,:userid,:usernameHash,:emailHash,:passwordHash)');
     $statement->bindValue(':user',enc($usernameSignup,$private_key));
     $statement->bindValue(':accountName','Password Storage');

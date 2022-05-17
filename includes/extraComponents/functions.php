@@ -9,7 +9,7 @@ function pwdMatch($password,$repeatPwd){
   return $password !== $repeatPwd;
 }
 function userExists($pdo,$username,$email,$private_key,$index_key){
-  $statement = $pdo->prepare('SELECT * FROM users WHERE usernameHash = :userHash OR emailHash = :emailHash');
+  $statement = $pdo->prepare('SELECT id,username,password FROM users WHERE usernameHash = :userHash OR emailHash = :emailHash LIMIT 1');
   $statement->bindValue(':userHash',getHash($username,$index_key));
   $statement->bindValue(':emailHash',getHash($email,$index_key));
   $statement->execute();

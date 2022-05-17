@@ -65,7 +65,7 @@ if(isset($_GET['id'])){
               </form>
             </div>
           </div>
-          <p class="h5"> Hi, <?php echo $_SESSION['username'];?></p>
+          <p class="h5" id='user'> Hi, <?php echo $_SESSION['username'];?></p>
         </div>
         <div class="card-body">
           <h5 class="card-title">Display Accounts</h5>
