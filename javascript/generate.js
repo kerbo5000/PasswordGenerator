@@ -9,6 +9,7 @@ Array.from(manual).forEach((item,i) => {
 const pwdForm = document.getElementsByClassName('pwd-generator');
 const formDiv = document.getElementsByClassName('pwd-div');
 Array.from(generate).forEach((item,i) => {
+  item.index = i;
   item.addEventListener("click",()=>{
     if(formDiv[i].style.display == 'none'){
       formDiv[i].style.display="";
@@ -51,7 +52,7 @@ function pwdGeneration(e){
     pwdForm[e.currentTarget.index].appendChild(message);
     setTimeout(function(i){
       pwdForm[i].removeChild(message);
-    },4000,e.currentTarget.index)
+    },2000,e.currentTarget.index)
     return
   }
   let result = Array(length).fill(-1);
@@ -111,6 +112,17 @@ function resetForm(e){
   inputs.forEach((item, i) => {
     item.value = '';
   });
+  const length =document.getElementsByClassName("length")[e.currentTarget.index];
+  length.value = "";
+  const checked = pwdForm[e.currentTarget.index].querySelectorAll('input[type="checkbox"]:checked')
+  checked.forEach((item) => {
+    item.checked = false;
+  });
+  formDiv[e.currentTarget.index].style.display="none";
+  const message = pwdForm[e.currentTarget.index].querySelector("div.alert-danger")
+  if(message != null){
+    pwdForm[e.currentTarget.index].removeChild(message)
+  }
   pwd[e.currentTarget.index].readOnly = true;
   const alert = modalInput[e.currentTarget.index].querySelector('.modal-errors');
   if(alert != null){
