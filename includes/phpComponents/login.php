@@ -13,7 +13,7 @@ if(isset($_POST['login-submit'])){
         session_start();
         $_SESSION['id'] = $info[0]["id"];
         $_SESSION['username'] = dec($info[0]["username"],$private_key);
-        header('Location: http://localhost/PasswordGenerator/account.php');
+        header('Location: https://password-storage-kerby.herokuapp.com/account.php');
         exit();
       }else{
         $passwordLogin ="";

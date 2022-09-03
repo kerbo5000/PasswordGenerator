@@ -62,7 +62,7 @@ if(isset($_POST['signup-submit'])){
     $statement->bindValue(':passwordHash',getHash($passwordSignup,$index_key));
     $statement->bindValue(':userid',$_SESSION['id']);
     $statement->execute();
-    header('Location: http://localhost/PasswordGenerator/account.php');
+    header('Location: https://password-storage-kerby.herokuapp.com/account.php');
     exit();
   }else{
     $errors[] = 'signup';
