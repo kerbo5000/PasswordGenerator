@@ -1,4 +1,6 @@
 <?php
+echo 'h18';
+
 function invalidUsername($username){
   return (!preg_match('/^[a-zA-Z0-9]*$/',$username));
 }

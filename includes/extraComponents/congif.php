@@ -1,5 +1,7 @@
 <?php
 // INSERT YOUR DATABASE CONNECTION DATA HERE
+echo 'h17';
+
 $cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
 $DB_HOST = $cleardb_url["host"]; //localhost

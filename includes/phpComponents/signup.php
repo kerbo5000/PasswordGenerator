@@ -10,44 +10,62 @@ if(isset($_POST['signup-submit'])){
   $repeatPwdSignup = $_POST['signup-repeat-password'];
   $valid_username = true;
   $valid_email = true;
+  echo 'h16';
+
   if(!empty($usernameSignup)){
+    echo 'h1';
     if(invalidUsername($usernameSignup)){
+      echo 'h2';
       $valid_username = false;
       $usernameSignup = '';
       $errors[] ='username is invalid';
     }
   }else{
+    echo 'h3';
     $valid_username = false;
     $errors[] ='missing inputs';
   }
+  echo 'h15';
 
   if(!empty($emailSignup)){
+    echo 'h4';
     if(invalidEmail($emailSignup)){
+      echo 'h5';
       $valid_email = false;
       $emailSignup = '';
       $errors[] ='email is invalid';
     }
   }else if(!in_array('missing inputs',$errors)){
+    echo 'h6';
     $valid_email = false;
     $errors[] ='missing inputs';
   }
+  echo 'h14';
 
   if(!(empty($passwordSignup) || empty($repeatPwdSignup))){
+    echo 'h7';
     if(pwdMatch($passwordSignup,$repeatPwdSignup)){
+      echo 'h8';
       $passwordSignup ='';
       $repeatPwdSignup = '';
       $errors[] ='the passwords don\'t match';
     }
   }else if(!in_array('missing inputs',$errors)){
+    echo 'h9';
     $errors[] ='missing inputs';
   }
+  echo 'h13';
+
   if($valid_username && $valid_email){
+    echo 'h10';
     if(userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key)){
+      echo 'h11';
       $emailSignup = '';
       $usernameSignup = '';
       $errors[] ='username or email already used';
     }
   }
+  echo 'h12';
   if(empty($errors)){
     echo 'hiiii';
     createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup,$private_key,$index_key);
