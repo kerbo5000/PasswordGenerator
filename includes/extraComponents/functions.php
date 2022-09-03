@@ -14,15 +14,24 @@ function userExists($pdo,$username,$email,$private_key,$index_key){
   echo 'h19';
 
   $statement = $pdo->prepare('SELECT id,username,password FROM users WHERE usernameHash = :userHash OR emailHash = :emailHash LIMIT 1');
+  echo 'h22';
+
   $statement->bindValue(':userHash',getHash($username,$index_key));
+  echo 'h23';
+
   $statement->bindValue(':emailHash',getHash($email,$index_key));
+  echo 'h24';
+
   $statement->execute();
+  echo 'h25';
+
   $result = $statement->fetchAll(PDO::FETCH_ASSOC);
   echo $result;
   if($result){
     echo 'h20';
     return $result;
   }else{
+    echo 'h21';
     return false;
   }
 }
@@ -54,6 +63,7 @@ function dec($data,$private_key) {
   return $plaintext;
 }
 function getHash($string,$index_key){
+    echo 'h26';
     $index_key = base64_decode($index_key);
     return bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
 	}
