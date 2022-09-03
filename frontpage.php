@@ -8,8 +8,6 @@ $passwordLogin = '';
 $errors = [];
 include 'includes/phpComponents/signup.php';
 include 'includes/phpComponents/login.php';
-echo 'hiii';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

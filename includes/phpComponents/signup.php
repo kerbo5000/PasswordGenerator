@@ -49,6 +49,7 @@ if(isset($_POST['signup-submit'])){
     }
   }
   if(empty($errors)){
+    echo 'hiiii'
     createUser($pdo,$usernameSignup,$emailSignup,$passwordSignup,$private_key,$index_key);
     $user = userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key);
     session_start();
