@@ -1,5 +1,7 @@
 <?php
+echo 'hi';
 if(isset($_POST['signup-submit'])){
+  echo 'hii';
   include_once __DIR__.'/../extraComponents/config.php';
   include_once __DIR__.'/../extraComponents/functions.php';
   $usernameSignup = $_POST['signup-username'];
@@ -62,7 +64,6 @@ if(isset($_POST['signup-submit'])){
     $statement->bindValue(':passwordHash',getHash($passwordSignup,$index_key));
     $statement->bindValue(':userid',$_SESSION['id']);
     $statement->execute();
-    echo 'hi';
     header('Location: https://password-storage-kerby.herokuapp.com/account.php');
     exit();
   }else{
