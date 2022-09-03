@@ -69,6 +69,7 @@ function getHash($string,$index_key){
       $index_key = base64_decode($index_key);
       echo 'h27';
       $hash = bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
+      echo $hash;
       return $hash;
     } catch (Exception $e) {
         echo 'Caught exception: ',  $e->getMessage(), "\n";
