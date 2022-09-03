@@ -67,7 +67,8 @@ function getHash($string,$index_key){
     try {
       echo 'h26';
       $index_key = base64_decode($index_key);
-      echo 'h27';
+      echo function_exists(sodium_crypto_pwhash);
+
       $test = sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE);
       echo $test;
       $hash = bin2hex($test);
