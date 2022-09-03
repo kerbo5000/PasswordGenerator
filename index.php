@@ -1,1 +1,1 @@
-<?php include('frontpage.php')?>
+<?php include 'frontpage.php'?>
