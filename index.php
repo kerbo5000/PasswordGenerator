@@ -1,3 +1,3 @@
-<?php include('frontpage.php')
+<?php phpinfo();
 ?>
 
