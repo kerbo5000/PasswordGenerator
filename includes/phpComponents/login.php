@@ -7,16 +7,12 @@ if(isset($_POST['login-submit'])){
   if(empty($usernameLogin) || empty($passwordLogin)){
     $errors[] ='missing inputs';
   }else{
-    echo 'h4';
     if($info = userExists($pdo,$usernameLogin,$usernameLogin,$private_key,$index_key)){
-      echo 'h5';
       $userPassword = $info[0]["password"];
       if(password_verify($passwordLogin,$userPassword)){
-        echo 'h6';
         session_start();
         $_SESSION['id'] = $info[0]["id"];
         $_SESSION['username'] = dec($info[0]["username"],$private_key);
-        echo 'h7';
         header('Location: https://password-storage-kerby.herokuapp.com/account.php');
         exit();
       }else{

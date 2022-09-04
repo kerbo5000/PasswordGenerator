@@ -12,9 +12,7 @@ function pwdMatch($password,$repeatPwd){
 function userExists($pdo,$username,$email,$private_key,$index_key){
 
   $statement = $pdo->prepare('SELECT id,username,password FROM users WHERE usernameHash = :userHash OR emailHash = :emailHash LIMIT 1');
-  echo 'h1';
   $statement->bindValue(':userHash',getHash($username,$index_key));
-  echo 'h2';
   $statement->bindValue(':emailHash',getHash($email,$index_key));
 
   $statement->execute();
@@ -47,22 +45,16 @@ function enc($data,$private_key){
   return $data;
 }
 function dec($data,$private_key) {
-  echo 'h8';
   $decoded = base64_decode($data);
-  echo 'h9';
   $key = base64_decode($private_key);
-  echo 'h10';
   echo SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
   $nonce = mb_substr($decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '8bit');
-  echo 'h11';
   $ciphertext = mb_substr($decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, null, '8bit');
-  echo 'h12';
   $plaintext = sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
   echo $plaintext;
   return $plaintext;
 }
 function getHash($string,$index_key){
-  echo 'h3';
   $index_key = base64_decode($index_key);
   return bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
 }
