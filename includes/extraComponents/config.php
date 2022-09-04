@@ -9,9 +9,9 @@ $DB_PWD = $cleardb_url["pass"];
 $DB_NAME = substr($cleardb_url["path"], 1);
 // $DB_PORT = $cleardb_url["port"];
 // encryption/decryption key
-$private_key = "3sME4onR0Zbsybkeg8Ql4nLE5EAIfsjx20ybOV4N/5M="; //3sME4onR0Zbsybkeg8Ql4nLE5EAIfsjx20ybOV4N/5M=
+$private_key = getenv("PRIVATE_KEY"); //3sME4onR0Zbsybkeg8Ql4nLE5EAIfsjx20ybOV4N/5M=
 // hashing key
-$index_key = "CWjGRyEpefknC39hrTUnww=="; //CWjGRyEpefknC39hrTUnww==
+$index_key = getenv("INDEX_KEY"); //CWjGRyEpefknC39hrTUnww==
 $pdo = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USR,$DB_PWD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 ?>
