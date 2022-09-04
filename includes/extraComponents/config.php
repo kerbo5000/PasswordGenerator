@@ -1,6 +1,5 @@
 <?php
 // INSERT YOUR DATABASE CONNECTION DATA HERE
-echo 'h17';
 
 $cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
@@ -9,10 +8,6 @@ $DB_USR = $cleardb_url["user"]; // root
 $DB_PWD = $cleardb_url["pass"];
 $DB_NAME = substr($cleardb_url["path"], 1);
 // $DB_PORT = $cleardb_url["port"];
-echo $DB_HOST;
-echo $DB_USR;
-echo $DB_PWD;
-echo $DB_NAME;
 // encryption/decryption key
 $private_key = "3sME4onR0Zbsybkeg8Ql4nLE5EAIfsjx20ybOV4N/5M="; //3sME4onR0Zbsybkeg8Ql4nLE5EAIfsjx20ybOV4N/5M=
 // hashing key
