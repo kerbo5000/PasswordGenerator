@@ -8,6 +8,8 @@ if(isset($_POST['signup-submit'])){
   $repeatPwdSignup = $_POST['signup-repeat-password'];
   $valid_username = true;
   $valid_email = true;
+  
+
   if(!empty($usernameSignup)){
     if(invalidUsername($usernameSignup)){
       $valid_username = false;
@@ -39,6 +41,7 @@ if(isset($_POST['signup-submit'])){
   }else if(!in_array('missing inputs',$errors)){
     $errors[] ='missing inputs';
   }
+
   if($valid_username && $valid_email){
     if(userExists($pdo,$usernameSignup,$emailSignup,$private_key,$index_key)){
       $emailSignup = '';
@@ -62,7 +65,7 @@ if(isset($_POST['signup-submit'])){
     $statement->bindValue(':passwordHash',getHash($passwordSignup,$index_key));
     $statement->bindValue(':userid',$_SESSION['id']);
     $statement->execute();
-    header('Location: http://localhost/PasswordGenerator/account.php');
+    header('Location: https://password-storage-kerby.herokuapp.com/account.php');
     exit();
   }else{
     $errors[] = 'signup';

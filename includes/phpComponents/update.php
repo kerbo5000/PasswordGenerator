@@ -3,7 +3,7 @@ if(!isset($_SESSION)){
   session_start();
 }
 if(!isset($_SESSION['id'])){
-  header('Location: http://localhost/PasswordGenerator/frontpage.php');
+  header('Location: https://password-storage-kerby.herokuapp.com/frontpage.php');
   exit();
 }
 if(isset($_POST['id-edit'])){
@@ -44,7 +44,7 @@ if(isset($_POST['id-edit'])){
     $errors[] = 'edit';
     $urlErrors = '&errors='.urlencode(serialize($errors));
     $data = '&accountName='.$accountNameEdit.'&username='.$usernameEdit.'&email='.$emailEdit.'&password='.$passwordEdit;
-    header('Location: http://localhost/PasswordGenerator/account.php?id='.base64_encode($_POST['actID']).$urlErrors.$data);
+    header('Location: https://password-storage-kerby.herokuapp.com/account.php?id='.base64_encode($_POST['actID']).$urlErrors.$data);
   }
 }
 ?>
