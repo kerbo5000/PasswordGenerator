@@ -10,7 +10,9 @@ function pwdMatch($password,$repeatPwd){
 }
 function userExists($pdo,$username,$email,$private_key,$index_key){
   $statement = $pdo->prepare('SELECT id,username,password FROM users WHERE usernameHash = :userHash OR emailHash = :emailHash LIMIT 1');
+  echo 'h3';
   $statement->bindValue(':userHash',getHash($username,$index_key));
+  echo 'h4';
   $statement->bindValue(':emailHash',getHash($email,$index_key));
   $statement->execute();
   $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +50,21 @@ function dec($data,$private_key) {
   return $plaintext;
 }
 function getHash($string,$index_key){
-    $index_key = base64_decode($index_key);
-    return bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
+    try {
+      print_r(get_loaded_extensions());
+      phpinfo();
+      echo 'h1';
+      echo $index_key;
+      $index_key = base64_decode($index_key);
+      echo 'h2';
+      echo SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE;
+      echo SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE;
+      echo $index_ke;
+      $test = bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
+      echo 'h4';
+      return $test;
+  } catch (Exception $e) {
+      echo 'Caught exception: ',  $e->getMessage(), "\n";
+  }
 	}
 ?>
