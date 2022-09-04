@@ -1,8 +1,8 @@
 {
-    	"require-dev": {
-        	"heroku/heroku-buildpack-php": "^223.0"
-   	 },
-	"require": {
-		"ext-sodium":"*"
-   	 }
+  "require-dev": {
+    "heroku/heroku-buildpack-php": "^223.0"
+  },
+  "require": {
+    "ext-sodium": "*"
+  }
 }

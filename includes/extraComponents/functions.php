@@ -12,7 +12,9 @@ function pwdMatch($password,$repeatPwd){
 function userExists($pdo,$username,$email,$private_key,$index_key){
 
   $statement = $pdo->prepare('SELECT id,username,password FROM users WHERE usernameHash = :userHash OR emailHash = :emailHash LIMIT 1');
+  echo 'h1';
   $statement->bindValue(':userHash',getHash($username,$index_key));
+  echo 'h2';
   $statement->bindValue(':userHash',getHash($username,$index_key));
   $statement->bindValue(':emailHash',getHash($email,$index_key));
 
@@ -54,6 +56,7 @@ function dec($data,$private_key) {
   return $plaintext;
 }
 function getHash($string,$index_key){
+  echo 'h3';
   $index_key = base64_decode($index_key);
   return bin2hex(sodium_crypto_pwhash(32,$string,$index_key,SODIUM_CRYPTO_PWHASH_OPSLIMIT_MODERATE,SODIUM_CRYPTO_PWHASH_MEMLIMIT_MODERATE));
 }
