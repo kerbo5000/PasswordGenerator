@@ -16,15 +16,14 @@ if(isset($_POST['login-submit'])){
         session_start();
         $_SESSION['id'] = $info[0]["id"];
         $_SESSION['username'] = dec($info[0]["username"],$private_key);
+        echo 'h7';
         header('Location: https://password-storage-kerby.herokuapp.com/account.php');
         exit();
       }else{
-        echo 'h7';
         $passwordLogin ="";
         $errors[] = 'password doesn\'t match with account';
       }
     }else{
-      echo 'h8';
       $usernameLogin = "";
       $passwordLogin ="";
       $errors[] ='account doesn\'t exist';
