@@ -3,6 +3,7 @@
     "heroku/heroku-buildpack-php": "^223.0"
   },
   "require": {
-    "ext-sodium": "*"
+    "ext-sodium": "*",
+    "ext-mbstring": "*"
   }
 }

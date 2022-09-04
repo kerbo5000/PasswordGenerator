@@ -52,6 +52,7 @@ function dec($data,$private_key) {
   echo 'h9';
   $key = base64_decode($private_key);
   echo 'h10';
+  echo SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
   $nonce = mb_substr($decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '8bit');
   echo 'h11';
   $ciphertext = mb_substr($decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, null, '8bit');
