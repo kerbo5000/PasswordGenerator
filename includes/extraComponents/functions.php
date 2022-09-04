@@ -15,7 +15,6 @@ function userExists($pdo,$username,$email,$private_key,$index_key){
   echo 'h1';
   $statement->bindValue(':userHash',getHash($username,$index_key));
   echo 'h2';
-  $statement->bindValue(':userHash',getHash($username,$index_key));
   $statement->bindValue(':emailHash',getHash($email,$index_key));
 
   $statement->execute();
