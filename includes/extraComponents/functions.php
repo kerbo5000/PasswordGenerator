@@ -47,11 +47,9 @@ function enc($data,$private_key){
 function dec($data,$private_key) {
   $decoded = base64_decode($data);
   $key = base64_decode($private_key);
-  echo SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
   $nonce = mb_substr($decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '8bit');
   $ciphertext = mb_substr($decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, null, '8bit');
   $plaintext = sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
-  echo $plaintext;
   return $plaintext;
 }
 function getHash($string,$index_key){
