@@ -51,6 +51,15 @@ include 'includes/phpComponents/login.php';
                         </div>
                       </div>
                     <?php endif ?>
+                    <div class="alert alert-success" role="alert">
+                      <h4 class="alert-heading">Default account</h4>
+                      <dl class="row">
+                        <dt class="col-sm-3">Username</dt>
+                        <dd class="col-sm-9">default</dd>
+                        <dt class="col-sm-3">Password</dt>
+                        <dd class="col-sm-9">12345Aa!</dd>
+                      </dl>
+                    </div>
                     <form action="frontpage.php" method="POST">
                       <div class="mb-3">
                         <label class="form-label">Username/Email</label>
